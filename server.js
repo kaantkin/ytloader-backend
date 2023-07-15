@@ -69,7 +69,7 @@ app.get('/videosaver', (req,res) => {
     const dl = new DownloaderHelper(URL, __dirname, {fileName:overallName});
     dl.on('end', () => {
         // Read the file in server and send to client
-        let readable = fs.createReadStream(overallName);
+        let readable = fs.createReadStream(path.join(__dirname, overallName));
         readable.pipe(res);
         // Delete file after sending
         fs.unlink(overallName, (err) => {
