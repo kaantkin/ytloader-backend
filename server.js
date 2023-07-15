@@ -78,7 +78,9 @@ app.get('/videosaver', (req,res) => {
     // });
     // dl.start().catch(err => console.error(err));
 
-    require('request').get(URL).pipe(res);
+    fetch(URL).then((actual) => {
+        actual.body.pipeTo(res);
+    })
 });
 
 module.exports = app;
