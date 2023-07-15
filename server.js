@@ -66,21 +66,17 @@ app.get('/videosaver', (req,res) => {
     res.header('Content-Type', mimeType);
 
     // Download the video in the appropriate quality/format
-    // const dl = new DownloaderHelper(URL, __dirname, {fileName:overallName});
-    // dl.on('end', () => {
-    //     // Read the file in server and send to client
-    //     let readable = fs.createReadStream(overallName);
-    //     readable.pipe(res);
-    //     // Delete file after sending
-    //     fs.unlink(overallName, (err) => {
-    //         if (err) throw err;
-    //     });
-    // });
-    // dl.start().catch(err => console.error(err));
-
-    fetch(URL).then((actual) => {
-        actual.body.pipeTo(res);
-    })
+    const dl = new DownloaderHelper(URL, __dirname, {fileName:overallName});
+    dl.on('end', () => {
+        // Read the file in server and send to client
+        let readable = fs.createReadStream(overallName);
+        readable.pipe(res);
+        // Delete file after sending
+        fs.unlink(overallName, (err) => {
+            if (err) throw err;
+        });
+    });
+    dl.start().catch(err => console.error(err));
 });
 
 module.exports = app;
