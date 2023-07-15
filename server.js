@@ -78,14 +78,7 @@ app.get('/videosaver', (req,res) => {
     // });
     // dl.start().catch(err => console.error(err));
 
-    var file = fs.createWriteStream(overallName);
-    https.get(URL, (response) => {
-        response.pipe(file);
-        file.on('finish', () => {
-            file.pipe(req);
-            file.close();
-        })
-    })
+    require('request').get(URL).pipe(res);
 });
 
 module.exports = app;
