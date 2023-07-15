@@ -68,14 +68,16 @@ app.get('/videosaver', (req,res) => {
 
    // Download the video in the appropriate quality/format
     const dl = new DownloaderHelper(URL, __dirname, {fileName:overallName});
-    // Read the file in server and send to client
-    let readable = fs.createReadStream(path.join(__dirname, overallName));
-    readable.pipe(res);
     dl.on('end', () => {
+        // Read the file in server and send to client
+        let readable = fs.createReadStream(path.join(__dirname, overallName));
+        readable.pipe(res);
         // Delete file after sending
-        fs.unlink(path.join(__dirname, overallName), (err) => {
-            if (err) throw err;
-        });
+        readable.on('end', () => {
+            fs.unlink(path.join(__dirname, overallName), (err) => {
+                if (err) throw err;
+            });
+        })
     });
     dl.start().catch(err => console.error(err));
 });
