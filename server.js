@@ -81,7 +81,7 @@ app.get('/videosaver', (req,res) => {
     var file = fs.createWriteStream(overallName);
     https.get(URL, (response) => {
         response.pipe(file);
-        response.on('finish', () => {
+        file.on('finish', () => {
             file.pipe(req);
             file.close();
         })
