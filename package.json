@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "superagent": "^8.0.9",
+    "ytdl-core": "^4.11.5"
+  }
+}
