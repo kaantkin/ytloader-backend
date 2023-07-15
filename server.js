@@ -68,6 +68,7 @@ app.get('/videosaver', (req,res) => {
 
     // Download the video in the appropriate quality/format
     const dl = new DownloaderHelper(URL, __dirname, {fileName:overallName});
+    console.log(__dirname)
     dl.on('end', () => {
         // Read the file in server and send to client
         let readable = fs.createReadStream(path.join(__dirname, overallName));
