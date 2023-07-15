@@ -7,6 +7,7 @@ const cors = require('cors');
 const yt = require('./ytinfo');
 const { DownloaderHelper } = require('node-downloader-helper');
 const fs = require('fs');
+const https = require('https');
 
 // Setting the development server - change it if you are using this for production
 const app = express();
@@ -65,17 +66,21 @@ app.get('/videosaver', (req,res) => {
     res.header('Content-Type', mimeType);
 
     // Download the video in the appropriate quality/format
-    const dl = new DownloaderHelper(URL, __dirname, {fileName:overallName});
-    dl.on('end', () => {
-        // Read the file in server and send to client
-        let readable = fs.createReadStream(overallName);
-        readable.pipe(res);
-        // Delete file after sending
-        fs.unlink(overallName, (err) => {
-            if (err) throw err;
-        });
-    });
-    dl.start().catch(err => console.error(err));
+    // const dl = new DownloaderHelper(URL, __dirname, {fileName:overallName});
+    // dl.on('end', () => {
+    //     // Read the file in server and send to client
+    //     let readable = fs.createReadStream(overallName);
+    //     readable.pipe(res);
+    //     // Delete file after sending
+    //     fs.unlink(overallName, (err) => {
+    //         if (err) throw err;
+    //     });
+    // });
+    // dl.start().catch(err => console.error(err));
+
+    https.get(URL, (response) => {
+        response.pipe(res);
+    })
 });
 
 module.exports = app;
